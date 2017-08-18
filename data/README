@@ -1,0 +1,11 @@
+This folder contains raw data we used for running the pipeline.
+
+modified_ALL_GENE_file -- contains a list of genes and some key information:
+	- the species and contig where the gene is located,
+	- the gene's position on its contig,
+	- the gene's initial family,
+	- and other information.
+	
+translatedGenFam.syc -- contains a list of gene pairs and their sequence
+	similarity. This file was produced using GenFamCLust software (by Ali,
+	et al.)

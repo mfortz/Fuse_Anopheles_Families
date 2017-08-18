@@ -1,0 +1,11 @@
+Appendix:
+
+Basic_Statistics.ipynb -- contains basic exploration of the dataset. This
+	includes the number of genes and families and distribution of genes
+	and families in the 18 genomes.
+
+Joined_families.ipynb -- investigated possible null distributions for use in
+	false discovery rate computations. 
+
+Examine_pairs.ipynb -- used for manually examining pairs of families and
+ 	edges incident to genes inside the pair of clusters.
