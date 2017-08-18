@@ -1,0 +1,149 @@
+###############################################################################
+
+Tutorial for Joined_families_analysis
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Author: Mark Forteza, mforteza@sfu.ca
+Last modified: 18 August 2017
+
+
+
+
+Method for finding pairs of gene families that should be joined. Executable 
+scripts are:
+# shared_nbr_candidates.py
+# tandem_duplicate_candidates.py
+# silhouette.py
+# FDR_analysis.py         
+# plotHelper.py
+
+Instructions for running each script are below. Arguments (inputs and output 
+names) are given in order.
+
+Commonly used inputs are:
+    # all gene file - gives information on all genes. Contains 9 columns: 
+        species, ctg, gene_family, gene_name, gene_orientation, start_gene,
+        end_gene, # of exons, and exons_position.
+        Assumes first row is a header.
+
+    # similarity score file - gives a similarity score to a pair of genes. 
+		First two columns are for gene names (must match name in 
+		all_gene_file), and the third column contains the similarity score.
+		Suggested software: GenFamClust *
+
+
+* Ali, Raja H., Sayyed A. Muhammad, and Lars Arvestad (2016) 
+doi:10.1186/s12862-016-0684-2.
+
+###############################################################################
+
+shared_nbr_candidates.py
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Find pairs of families (f1,f2) which are present in complementary species, 
+and both has a member gene that is adjacent/syntenic to a third family. Usage:
+
+	$ python shared_nbr_candidates.py <all gene file>
+	  <num_species_spanned_by_f1> <output file>
+
+Output: family pairs.
+
+
+tandem_duplicate_candidates.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Finds pairs of families which has multiple syntenic members. Usage:
+
+	$ python tandem_duplicate_candidates.py <all gene file>
+	  <max_species_spanned_by_f1> <ratio> <output file>
+
+where ratio = num_observed_synteny / num_species_spanned_by_f1, and f1 is 
+taken be the smaller family.
+
+Output: family pairs.
+
+
+NOTE: It is recommended that these two lists be joined.
+
+	$ cat file1 file2 > all_candidates_file
+
+
+###############################################################################
+
+silhouette.py
+~~~~~~~~~~~~~~
+
+Calculates the silhouette of gene families. Contains three modules:
+'all_families', 'joined', and shuffled'.Usage:
+
+	$ python silhoutte.py <module> [args]
+
+Modules:
+
+# all_families - gives silhouette of all gene families. 
+	Inputs:
+	1. similarity score file
+	2. all gene file
+	Output: 
+	3. all silhouette file
+
+# joined - takes a list of family pairs, usually the candidate pairs. Every 
+pair is joined and the silhouette is calculated for the joined family. Reports 
+the change in silhouette after joining the pair.
+	Inputs:
+	1. similarity score file
+	2. all gene file
+	3. all silhouette file
+	4. family pairs file
+	Output:
+	5. joined families silhouette
+
+# shuffled - used for null dataset of FDR method. Shuffles edge weights, 
+recalculates silhouettes, joins family pairs with an edge between them, then 
+reports the change in silhouette after joining. 
+	Inputs:
+	Inputs:
+	1. similarity score file
+	2. all gene file
+	Output:
+	3. shuffled edge weights
+	4. shuffled all silhouette file
+	5. shuffled joined families silhouette
+	6. (bool) - shuffle intra-cluster weights?
+
+
+###############################################################################
+
+FDR_analysis.py 
+~~~~~~~~~~~~~~~~~
+
+Calculates threshold t that satisfies the given false discovery rate (FDR). 
+Datasets used are joined families silhouette of observed (suggested: candidates) and null (suggested: shuffled). Usage:
+
+	$ python FDR_analysis.py <observed dataset> <null dataset> <FDR>
+
+Output: t, and final FDR.
+
+
+###############################################################################
+        
+plotHelper.py
+~~~~~~~~~~~~~
+
+Methods to plot silhouette distributions. Also prints mean and standard 
+deviation of the distribution. Usage:
+
+	$ python plotHelper.py <module> <input>
+
+Modules:
+	1. 'all_families' - silhouette distribution on all families and all genes.
+		Input: all silhouette file.
+	2. 'joined' - change in silhouette distribution after joining family pairs.
+		Input: joined families silhouette.
+
+
+###############################################################################		
+
+
+
+
