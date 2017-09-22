@@ -9,6 +9,6 @@ python silhouette.py joined ../data/GenFamClust_files/translatedGenFam.syc ../da
 
 python silhouette.py shuffled ../data/GenFamClust_files/translatedGenFam.syc ../data/gene_families/modified_ALL_GENE_file ../results/pipeline_results/shuffled_weights.txt ../results/pipeline_results/shuffled_nc_silhouette.txt ../results/pipeline_results/shuffled_joined_families.txt 1
 
-python FDR_analysis.py ../results/pipeline_results/joined_all_candidates.txt ../results/pipeline_results/shuffled_joined_families.txt 0.01
+python FDR_analysis_v2.py ../results/pipeline_results/joined_all_candidates.txt ../results/pipeline_results/shuffled_joined_families.txt 0.01 ../results/pipeline_results/acceptedPairs/acceptedPairs_0.01.txt
 
 
